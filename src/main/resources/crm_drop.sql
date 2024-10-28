@@ -1,0 +1,8 @@
+-- CREATE DATABASE gymcrm;
+-- DROP DATABASE gymcrm;
+DROP TABLE IF EXISTS trainee_trainer;
+DROP TABLE IF EXISTS training;
+DROP TABLE IF EXISTS trainee;
+DROP TABLE IF EXISTS trainer;
+DROP TABLE IF EXISTS gym_user;
+DROP TABLE IF EXISTS trainingtype;

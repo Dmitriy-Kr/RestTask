@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <File name="LogToFile" fileName="log/hibernate_task.log" append="false">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- avoid duplicated logs with additivity=false -->
+        <Logger name="edu.java.resttask" level="info" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+<!--            <AppenderRef ref="LogToConsole"/>-->
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogToFile"/>
+<!--            <AppenderRef ref="LogToConsole"/>-->
+        </Root>
+    </Loggers>
+</Configuration>

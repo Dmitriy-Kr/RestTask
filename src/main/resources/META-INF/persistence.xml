@@ -1,0 +1,37 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="hibernate" transaction-type="RESOURCE_LOCAL">
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>edu.java.resttask.entity.User</class>
+        <class>edu.java.resttask.entity.Trainee</class>
+        <class>edu.java.resttask.entity.Trainer</class>
+        <class>edu.java.resttask.entity.TrainingType</class>
+        <class>edu.java.resttask.entity.Training</class>
+
+        <properties>
+            <property name="hibernate.jdbc.time_zone" value="UTC"/>
+            <property name="hibernate.show_sql" value = "true" />
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+<!--            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />-->
+<!--            For Hibernate 6 and upper-->
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor" />
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:postgresql://localhost:5432/gymcrm?createDatabaseIfNotExist=true&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="K50ABseries"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.sql-load-script-source" value="data.sql"/>
+            <property name="javax.persistence.schema-generation.drop-script-source" value="crm_drop.sql" />
+            <property name="javax.persistence.schema-generation.create-source" value="script"/>
+            <property name="javax.persistence.schema-generation.create-script-source" value="crm_schema.sql" />
+        </properties>
+    </persistence-unit>
+</persistence>
