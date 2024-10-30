@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-@Transactional
+//@Transactional
 public class TrainerRepositoryImpl implements TrainerRepository {
     @PersistenceContext(name = "hibernate")
     private EntityManager entityManager;
@@ -42,13 +42,13 @@ public class TrainerRepositoryImpl implements TrainerRepository {
 
     @Override
     public Optional<Trainer> getTrainerByUserName(String username) throws DBException {
-        Query query = entityManager.createQuery("SELECT t FROM Trainer as t WHERE t.user.userName = :username", Trainer.class);
+        Query query = entityManager.createQuery("SELECT t FROM Trainer as t WHERE t.user.username = :username", Trainer.class);
         query.setParameter("username", username);
         Trainer trainer = null;
         try {
             trainer = (Trainer) query.getSingleResult();
         } catch (NoResultException e){
-            logger.error("No such Trainer present in the database with userName {}", username);
+            logger.error("No such Trainer present in the database with username {}", username);
             throw new DBException("No such Trainer present in the database with userName " + username);
         }
         return trainer != null ? Optional.of(trainer) : Optional.empty();
@@ -115,7 +115,7 @@ public class TrainerRepositoryImpl implements TrainerRepository {
                     .collect(Collectors.toList());
 
         } catch (NoResultException e) {
-            logger.error("No such Trainer present in the database with userName {}", trainerUsername);
+            logger.error("No such Trainer present in the database with username {}", trainerUsername);
             throw new DBException("No such Trainer present in the database with userName " + trainerUsername, e);
         }
     }

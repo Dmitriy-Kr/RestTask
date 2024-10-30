@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import static edu.java.resttask.utility.PasswordGenerator.generatePassword;
 
 @Service
+@Transactional
 public class TrainerServiceImpl implements TrainerService {
 
     private TrainerRepository trainerRepository;
@@ -111,7 +113,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public List<Trainer> getNotAssignedOnTraineeTrainersByTraineeUsername(String traineeUsername) throws ServiceException {
-        Optional<Trainee> traineeFromDB = traineeService.getTraineeByUsername(traineeUsername);
+        Optional<Trainee> traineeFromDB = traineeService.findByUsername(traineeUsername);
 
         List<Trainer> traineeTrainers = null;
         List<Trainer> trainers = null;

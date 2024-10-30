@@ -2,16 +2,20 @@ package edu.java.resttask.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 @Entity
-@Table(name="training_type")
+@Table
 public class TrainingType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainingtype_id")
     private Long id;
-    @Column(name="training_type")
+    @Column
     private String trainingType;
+    @OneToMany(mappedBy = "specialization")
+    private List<Trainer> trainers = new ArrayList<>();
 
     public TrainingType() {
     }
@@ -39,6 +43,14 @@ public class TrainingType {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Trainer> getTrainers() {
+        return trainers;
+    }
+
+    public void setTrainers(List<Trainer> trainers) {
+        this.trainers = trainers;
     }
 
     @Override

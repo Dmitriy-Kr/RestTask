@@ -10,7 +10,7 @@ public class Trainer{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainer_id")
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "specialization_id")
     private TrainingType specialization;
     @OneToOne(cascade = CascadeType.ALL)
@@ -24,11 +24,10 @@ public class Trainer{
     public Trainer() {
     }
 
-    public Trainer(Long id, TrainingType specialization, User user, List<Trainee> trainees) {
+    public Trainer(Long id, TrainingType specialization, User user) {
         this.id = id;
         this.specialization = specialization;
         this.user = user;
-        this.trainees = trainees;
     }
 
     public Long getId() {

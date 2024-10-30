@@ -21,7 +21,7 @@ public class Trainee {
     @Column
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "gym_user_id")
     private User user;
     @ManyToMany
@@ -30,7 +30,7 @@ public class Trainee {
             inverseJoinColumns = @JoinColumn(name = "trainer_id"))
     private List<Trainer> trainers = new ArrayList<>();
     @OneToMany(mappedBy = "trainee", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(value = FetchMode.SUBSELECT)
+//    @Fetch(value = FetchMode.SUBSELECT)
     private List<Training> trainings = new ArrayList<>();
 
 

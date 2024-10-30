@@ -43,7 +43,7 @@ public class App {
 
         System.out.println("\n----------------------- Create Trainee ----------------------------------------------------\n");
 
-        TraineeService traineeService = context.getBean("traineeServiceImpl", TraineeService.class);
+        TraineeService traineeService = context.getBean("traineeService", TraineeService.class);
 
         Trainee trainee = new Trainee();
         trainee.setAddress("Black street 28/36");
@@ -62,7 +62,7 @@ public class App {
 
         System.out.println("\n--------------------------- Find trainee by username ------------------------------------------------\n");
         try {
-            System.out.println("Found trainee: " + (traineeService.getTraineeByUsername("Mari.Doyle").get()));
+            System.out.println("Found trainee: " + (traineeService.findByUsername("Mari.Doyle").get()));
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class App {
         System.out.println("\n----------------------------------Trainee Change password-----------------------------------------\n");
 
         try {
-            trainee = traineeService.getTraineeByUsername("Mari.Doyle").get();
+            trainee = traineeService.findByUsername("Mari.Doyle").get();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,11 @@ public class App {
         String password = PasswordGenerator.generatePassword();
         System.out.println("New password for " + trainee.getUser().getUsername() + "   " + password);
         trainee.getUser().setPassword(password);
-        System.out.println(traineeService.changePassword(trainee).get());
+        try {
+            System.out.println(traineeService.changePassword(trainee));
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
 
         System.out.println("\n----------------------------------Trainer Change password-----------------------------------------\n");
 
@@ -154,7 +158,7 @@ public class App {
         System.out.println("\n---------------------------------- Trainee update -----------------------------------------\n");
 
         try {
-            trainee = traineeService.getTraineeByUsername("Mari.Doyle").get();
+            trainee = traineeService.findByUsername("Mari.Doyle").get();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -162,17 +166,20 @@ public class App {
 
         trainee.getUser().setFirstname("Irina");
         trainee.getUser().setLastname("Ortega");
-        trainee.getUser().setUsername("Cow");
 
         trainee.setDateOfBirth(Date.valueOf(LocalDate.parse("2005-10-16")));
         trainee.setAddress("Serova st, 256, ap 45");
 
-        System.out.println(traineeService.update(trainee).get());
+        try {
+            System.out.println(traineeService.update(trainee).get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("---------------------------------- Trainee change status  -----------------------------------------\n");
 
         try {
-            trainee = traineeService.getTraineeByUsername("Dave.Batista").get();
+            trainee = traineeService.findByUsername("Dave.Batista").get();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -181,11 +188,11 @@ public class App {
         try {
             System.out.println(traineeService.changeStatus(trainee));
         } catch (ServiceException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         try {
-            trainee = traineeService.getTraineeByUsername("Dave.Batista").get();
+            trainee = traineeService.findByUsername("Dave.Batista").get();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -217,7 +224,7 @@ public class App {
         System.out.println("\n---------------------------------- Delete Trainee  -----------------------------------------\n");
 
         try {
-            trainee = traineeService.getTraineeByUsername("Dave.Batista").get();
+            trainee = traineeService.findByUsername("Dave.Batista").get();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -230,8 +237,8 @@ public class App {
         }
 
         try {
-            trainee = traineeService.getTraineeByUsername("Dave.Batista").get();
-        } catch (ServiceException e) {
+            trainee = traineeService.findByUsername("Dave.Batista").get();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -306,9 +313,9 @@ public class App {
         trainerList.add(trainer);
 
         try {
-            System.out.println(traineeService.getTraineeByUsername("Igor.Gura").get().getTrainers());
+            System.out.println(traineeService.getTrainerList("Igor.Gura"));
 
-            System.out.println(traineeService.updateTrainersList("Igor.Gura", trainerList).get().getTrainers());
+            System.out.println(traineeService.updateTrainersList("Igor.Gura", trainerList));
         } catch (ServiceException e) {
             e.printStackTrace();
         }

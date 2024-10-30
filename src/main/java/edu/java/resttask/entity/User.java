@@ -21,6 +21,11 @@ public class User {
     private String password;
     @Column
     private Boolean isActive;
+    @OneToOne(mappedBy = "user")
+    private Trainee trainee;
+    @OneToOne(mappedBy = "user")
+    private Trainer trainer;
+
 
     public User() {
     }
@@ -80,6 +85,22 @@ public class User {
 
     public void setIsActive(Boolean active) {
         isActive = active;
+    }
+
+    public Trainee getTrainee() {
+        return trainee;
+    }
+
+    public void setTrainee(Trainee trainee) {
+        this.trainee = trainee;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
     }
 
     @Override
