@@ -1,15 +1,18 @@
 package edu.java.resttask.controller;
 
 import edu.java.resttask.dto.TraineeDto;
+import edu.java.resttask.dto.TrainerDtoForTrainee;
 import edu.java.resttask.entity.Trainee;
-import edu.java.resttask.entity.User;
 import edu.java.resttask.service.ServiceException;
 import edu.java.resttask.service.TraineeService;
+import edu.java.resttask.utility.MappingUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static edu.java.resttask.utility.MappingUtils.*;
 
 @Controller
 @RequestMapping("/trainee")
@@ -20,24 +23,39 @@ public class TraineeController {
         this.traineeService = traineeService;
     }
 
-    @PostMapping
-    @ResponseBody
-    public Trainee create(@RequestBody TraineeDto traineeDto){
-        System.out.println(traineeDto);
-        Trainee trainee = new Trainee();
-        trainee.setAddress(traineeDto.getAddress());
-        trainee.setDateOfBirth(traineeDto.getDateOfBirth());
-
-        User user = new User();
-        user.setFirstname(traineeDto.getFirstname());
-        user.setLastname(traineeDto.getLastname());
-        trainee.setUser(user);
-        return traineeService.save(trainee);
-    }
-
     @GetMapping
     @ResponseBody
     public TraineeDto findByUsername(@RequestParam("username") String username) throws ServiceException {
-        return new TraineeDto(traineeService.findByUsername(username).get());
+        return mapToTraineeDto(traineeService.findByUsername(username).get());
     }
+
+    @GetMapping("/trainers-no-assigned")
+    @ResponseBody
+    public List<TrainerDtoForTrainee> findNoAssignedActiveTrainers(@RequestParam("username") String username) throws ServiceException {
+        return traineeService.getNotAssignedOnTraineeTrainersByTraineeUsername(username).stream()
+                .map(MappingUtils::mapToTrainerDtoForTrainee)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping
+    @ResponseBody
+    public TraineeDto create(@RequestBody TraineeDto traineeDto) {
+        return mapToTraineeDto(traineeService.save(mapToTrainee(traineeDto)));
+    }
+
+    @PutMapping("/{id}")
+    @ResponseBody
+    public TraineeDto update(@PathVariable Long id, @RequestBody TraineeDto traineeDto) throws ServiceException {
+        Trainee trainee = mapToTrainee(traineeDto);
+        trainee.setId(id);
+        return mapToTraineeDto(traineeService.update(trainee).orElseThrow(() -> new ServiceException("Update failed")));
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    public void delete(@RequestParam("username") String username) throws ServiceException {
+        traineeService.deleteByUsername(username);
+    }
+
+
 }

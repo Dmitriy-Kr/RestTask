@@ -1,9 +1,12 @@
 package edu.java.resttask.dto;
 
 import edu.java.resttask.entity.Trainee;
+import edu.java.resttask.entity.Trainer;
 import jakarta.persistence.Column;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TraineeDto {
     private Long id;
@@ -14,19 +17,17 @@ public class TraineeDto {
     private Boolean isActive;
     private Date dateOfBirth;
     private String address;
+    private List<TrainerDtoForTrainee> trainers;
 
-    public TraineeDto() {
+    public List<TrainerDtoForTrainee> getTrainers() {
+        return trainers;
     }
 
-    public TraineeDto(Trainee trainee) {
-        this.id = trainee.getId();
-        this.firstname = trainee.getUser().getFirstname();
-        this.lastname = trainee.getUser().getLastname();
-        this.username = trainee.getUser().getUsername();
-        this.password = trainee.getUser().getPassword();
-        this.isActive = trainee.getUser().isActive();
-        this.dateOfBirth = trainee.getDateOfBirth();
-        this.address = trainee.getAddress();
+    public void setTrainers(List<TrainerDtoForTrainee> trainers) {
+        this.trainers = trainers;
+    }
+
+    public TraineeDto() {
     }
 
     public Long getId() {
@@ -91,5 +92,19 @@ public class TraineeDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "TraineeDto{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", dateOfBirth=" + dateOfBirth +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

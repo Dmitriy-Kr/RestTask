@@ -87,12 +87,14 @@ public class TraineeService {
     @Transactional
     public Optional<Trainee> update(Trainee trainee) throws ServiceException {
 
-        Optional<Trainee> traineeFromDB = findByUsername(trainee.getUser().getUsername());
+//        Optional<Trainee> traineeFromDB = findByUsername(trainee.getUser().getUsername());
+        Optional<Trainee> traineeFromDB = traineeRepository.findById(trainee.getId());
 
         if (traineeFromDB.isPresent()) {
 
             traineeFromDB.get().getUser().setFirstname(trainee.getUser().getFirstname());
             traineeFromDB.get().getUser().setLastname(trainee.getUser().getLastname());
+            traineeFromDB.get().getUser().setIsActive(trainee.getUser().isActive());
 
             if (trainee.getDateOfBirth() != null) {
                 traineeFromDB.get().setDateOfBirth(trainee.getDateOfBirth());
@@ -204,6 +206,30 @@ public class TraineeService {
         }
 
         return new ArrayList<>();
+    }
+
+    public List<Trainer> getNotAssignedOnTraineeTrainersByTraineeUsername(String traineeUsername) throws ServiceException {
+        Optional<Trainee> traineeFromDB = findByUsername(traineeUsername);
+
+        List<Trainer> traineeTrainers;
+        List<Trainer> trainers ;
+
+        if(traineeFromDB.isPresent()){
+            traineeTrainers = traineeFromDB.get().getTrainers();
+        } else {
+            throw new ServiceException("Fail to get trainers list by trainee name from DB");
+        }
+
+        try {
+            trainers = trainerRepository.getAll();
+        } catch (DBException e) {
+            logger.error("Fail to get trainers from DB");
+            throw new ServiceException("Fail to get trainers from DB", e);
+        }
+
+        trainers.removeAll(traineeTrainers);
+
+        return trainers;
     }
 
     private String createValidUserName(Trainee trainee) {
