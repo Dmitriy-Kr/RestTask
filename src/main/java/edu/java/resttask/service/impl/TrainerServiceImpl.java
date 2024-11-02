@@ -6,6 +6,7 @@ import edu.java.resttask.entity.Training;
 import edu.java.resttask.entity.TrainingType;
 import edu.java.resttask.repository.DBException;
 import edu.java.resttask.repository.TrainerRepository;
+import edu.java.resttask.repository.TrainingTypeRepository;
 import edu.java.resttask.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +26,18 @@ public class TrainerServiceImpl implements TrainerService {
 
     private TrainerRepository trainerRepository;
     private edu.java.resttask.service.UserService userService;
-    private TrainingTypeService trainingTypeService;
+    private TrainingTypeRepository trainingTypeRepository;
     private TraineeService traineeService;
 
     private static Logger logger = LoggerFactory.getLogger(TrainerServiceImpl.class);
 
     public TrainerServiceImpl(TrainerRepository trainerRepository,
                               UserService userService,
-                              TrainingTypeService trainingTypeService,
+                              TrainingTypeRepository trainingTypeRepository,
                               @Lazy TraineeService traineeService) {
         this.trainerRepository = trainerRepository;
         this.userService = userService;
-        this.trainingTypeService = trainingTypeService;
+        this.trainingTypeRepository = trainingTypeRepository;
         this.traineeService = traineeService;
     }
 
@@ -44,6 +45,8 @@ public class TrainerServiceImpl implements TrainerService {
     public Optional<Trainer> save(Trainer trainer) throws ServiceException {
         trainer.getUser().setUsername(createValidUserName(trainer));
         trainer.getUser().setPassword(generatePassword());
+        //!!!!!!!!!!!!
+        trainer.setSpecialization(trainingTypeRepository.findByTrainingType(trainer.getSpecialization().getTrainingType()).get());
         try {
             return trainerRepository.create(trainer);
         } catch (DBException e) {
@@ -80,7 +83,7 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public Optional<Trainer> update(Trainer trainer) throws ServiceException {
-        Optional<TrainingType> checkedTrainingType = trainingTypeService.findByTrainingType(trainer.getSpecialization().getTrainingType());
+        Optional<TrainingType> checkedTrainingType = trainingTypeRepository.findByTrainingType(trainer.getSpecialization().getTrainingType());
 
         if(checkedTrainingType.isEmpty()){
             logger.error("No such training type in DB {}", trainer.getSpecialization().getTrainingType());

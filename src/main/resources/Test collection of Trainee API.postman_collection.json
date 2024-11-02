@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "e2706e06-601b-4a47-a643-b24581deec71",
 		"name": "Test collection of Trainee API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "24949621"
 	},
 	"item": [
@@ -127,7 +127,7 @@
 			"response": []
 		},
 		{
-			"name": "Find trainee by Username 2 Copy",
+			"name": "Find trainee by Username 3",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -154,7 +154,7 @@
 		{
 			"name": "Delete trainee",
 			"request": {
-				"method": "PUT",
+				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -166,7 +166,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trainee",
+					"raw": "http://localhost:8080/trainee?username=Anton.Huge",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -178,8 +178,7 @@
 					"query": [
 						{
 							"key": "username",
-							"value": "Mari.Doyle",
-							"disabled": true
+							"value": "Anton.Huge"
 						}
 					]
 				}
@@ -206,6 +205,66 @@
 						{
 							"key": "username",
 							"value": "Shannon.Velazquez"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update trainee's trainer List",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Igor.Gura\",\r\n    \"trainers\": [\r\n        {\r\n            \"username\": \"Ward.Mejia\"            \r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/trainee/2/trainers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trainee Trainings List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trainee/trainings?username=Shannon.Velazquez&fromDate=2024-10-21&toDate=2024-11-21&trainerName=Ward&trainingType=yoga",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trainee",
+						"trainings"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Shannon.Velazquez"
+						},
+						{
+							"key": "fromDate",
+							"value": "2024-10-21"
+						},
+						{
+							"key": "toDate",
+							"value": "2024-11-21"
+						},
+						{
+							"key": "trainerName",
+							"value": "Ward"
+						},
+						{
+							"key": "trainingType",
+							"value": "yoga"
 						}
 					]
 				}

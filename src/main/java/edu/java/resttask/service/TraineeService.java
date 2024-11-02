@@ -115,10 +115,10 @@ public class TraineeService {
     @Transactional
     public Optional<Trainee> changeStatus(Trainee trainee) throws ServiceException {
 
-        Optional<Trainee> traineeFromDB = findByUsername(trainee.getUser().getUsername());
+        Optional<Trainee> traineeFromDB = traineeRepository.findById(trainee.getId());
 
         if (traineeFromDB.isPresent()) {
-            traineeFromDB.get().getUser().setIsActive(!traineeFromDB.get().getUser().isActive());
+            traineeFromDB.get().getUser().setIsActive(trainee.getUser().isActive());
             trainee = traineeRepository.save(traineeFromDB.get());
         } else {
             return Optional.empty();
@@ -145,13 +145,15 @@ public class TraineeService {
         }
     }
 
-    public List<Training> getTrainings(String traineeUsername, Date fromDate, Date toDate, String trainerName, TrainingType trainingType) throws ServiceException {
+    public List<Training> getTrainings(String traineeUsername, Date fromDate, Date toDate, String trainerName, String trainingType) throws ServiceException {
         Optional<Trainee> traineeFromDB = findByUsername(traineeUsername);
+
+//        System.out.println(traineeUsername + " " + fromDate + " " + toDate + " " + trainerName + " " + trainingType);
 
         Predicate<Training> fromDateTest = fromDate != null ? t -> t.getTrainingDay().compareTo(fromDate) >= 0 : t -> true;
         Predicate<Training> toDateTest = toDate != null ? t -> t.getTrainingDay().compareTo(toDate) <= 0 : t -> true;
         Predicate<Training> trainerNameTest = trainerName != null ? t -> t.getTrainer().getUser().getFirstname().equals(trainerName) : t -> true;
-        Predicate<Training> trainingTypeTest = trainingType != null ? t -> t.getTrainingType().equals(trainingType) : t -> true;
+        Predicate<Training> trainingTypeTest = trainingType != null ? t -> t.getTrainingType().getTrainingType().equals(trainingType) : t -> true;
 
         return traineeFromDB
                 .map(
@@ -166,14 +168,14 @@ public class TraineeService {
     }
 
     @Transactional
-    public List<Trainer> updateTrainersList(String traineeUsername, List<Trainer> trainersList) throws ServiceException {
-        Optional<Trainee> traineeFromDB = findByUsername(traineeUsername);
+    public List<Trainer> updateTrainersList(Trainee trainee) throws ServiceException {
+        Optional<Trainee> traineeFromDB = traineeRepository.findById(trainee.getId());
 
         if (traineeFromDB.isPresent()) {
 
             List<Trainer> traineeTrainersList = traineeFromDB.get().getTrainers();
 
-            for (Trainer trainer : trainersList) {
+            for (Trainer trainer : trainee.getTrainers()) {
 
                 Optional<Trainer> trainerFromDB;
 

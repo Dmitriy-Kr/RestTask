@@ -249,7 +249,7 @@ public class App {
                     Date.valueOf(LocalDate.parse("2024-10-21")),
                     Date.valueOf(LocalDate.parse("2024-11-21")),
                     "Ward",
-                    new TrainingType(1L, "yoga")));
+                     "yoga"));
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -315,7 +315,11 @@ public class App {
         try {
             System.out.println(traineeService.getTrainerList("Igor.Gura"));
 
-            System.out.println(traineeService.updateTrainersList("Igor.Gura", trainerList));
+            trainee = traineeService.findByUsername("Igor.Gura").get();
+            System.out.println("Current trainee list: " + traineeService.getTrainerList("Igor.Gura"));
+            trainee.setTrainers(trainerList);
+
+            System.out.println("Updated trainee list: " + traineeService.updateTrainersList(trainee));
         } catch (ServiceException e) {
             e.printStackTrace();
         }

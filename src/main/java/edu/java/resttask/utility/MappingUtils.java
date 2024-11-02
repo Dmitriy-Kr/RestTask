@@ -1,10 +1,9 @@
 package edu.java.resttask.utility;
 
 import edu.java.resttask.dto.TraineeDto;
+import edu.java.resttask.dto.TraineeTrainingDto;
 import edu.java.resttask.dto.TrainerDtoForTrainee;
-import edu.java.resttask.entity.Trainee;
-import edu.java.resttask.entity.Trainer;
-import edu.java.resttask.entity.User;
+import edu.java.resttask.entity.*;
 
 import java.util.stream.Collectors;
 
@@ -12,7 +11,7 @@ public class MappingUtils {
     private MappingUtils() {
     }
 
-    public static TraineeDto mapToTraineeDto(Trainee trainee){
+    public static TraineeDto mapToTraineeDto(Trainee trainee) {
         TraineeDto dto = new TraineeDto();
         dto.setId(trainee.getId());
         dto.setFirstname(trainee.getUser().getFirstname());
@@ -26,10 +25,13 @@ public class MappingUtils {
         return dto;
     }
 
-    public static Trainee mapToTrainee(TraineeDto traineeDto){
+    public static Trainee mapToTrainee(TraineeDto traineeDto) {
         Trainee trainee = new Trainee();
         trainee.setAddress(traineeDto.getAddress());
         trainee.setDateOfBirth(traineeDto.getDateOfBirth());
+        if (traineeDto.getTrainers() != null) {
+            trainee.setTrainers(traineeDto.getTrainers().stream().map(MappingUtils::mapToTrainer).collect(Collectors.toList()));
+        }
 
         User user = new User();
         user.setFirstname(traineeDto.getFirstname());
@@ -39,12 +41,36 @@ public class MappingUtils {
         return trainee;
     }
 
-    public static TrainerDtoForTrainee mapToTrainerDtoForTrainee(Trainer trainer){
+    public static TrainerDtoForTrainee mapToTrainerDtoForTrainee(Trainer trainer) {
         TrainerDtoForTrainee dto = new TrainerDtoForTrainee();
         dto.setFirstname(trainer.getUser().getFirstname());
         dto.setLastname(trainer.getUser().getLastname());
         dto.setUsername(trainer.getUser().getUsername());
         dto.setTrainingType(trainer.getSpecialization().getTrainingType());
+        return dto;
+    }
+
+    public static Trainer mapToTrainer(TrainerDtoForTrainee trainerDto) {
+        Trainer trainer = new Trainer();
+        trainer.setSpecialization(new TrainingType(trainerDto.getTrainingType()));
+
+        User user = new User();
+        user.setFirstname(trainerDto.getFirstname());
+        user.setLastname(trainerDto.getLastname());
+        user.setUsername(trainerDto.getUsername());
+        trainer.setUser(user);
+        return trainer;
+    }
+
+    public static TraineeTrainingDto mapToTraineeTrainingDto (Training training) {
+        TraineeTrainingDto dto = new TraineeTrainingDto();
+
+        dto.setTrainingName(training.getTrainingName());
+        dto.setTrainingDay(training.getTrainingDay());
+        dto.setTrainingType(training.getTrainingType().getTrainingType());
+        dto.setTrainingDuration(training.getTrainingDuration());
+        dto.setTrainerName(training.getTrainer().getUser().getUsername());
+
         return dto;
     }
 }
