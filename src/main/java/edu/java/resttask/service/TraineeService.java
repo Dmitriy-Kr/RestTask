@@ -214,9 +214,9 @@ public class TraineeService {
         Optional<Trainee> traineeFromDB = findByUsername(traineeUsername);
 
         List<Trainer> traineeTrainers;
-        List<Trainer> trainers ;
+        List<Trainer> trainers;
 
-        if(traineeFromDB.isPresent()){
+        if (traineeFromDB.isPresent()) {
             traineeTrainers = traineeFromDB.get().getTrainers();
         } else {
             throw new ServiceException("Fail to get trainers list by trainee name from DB");
@@ -231,7 +231,7 @@ public class TraineeService {
 
         trainers.removeAll(traineeTrainers);
 
-        return trainers;
+        return trainers.stream().filter(t -> t.getUser().isActive()).collect(Collectors.toList());
     }
 
     private String createValidUserName(Trainee trainee) {

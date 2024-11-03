@@ -32,6 +32,36 @@
 			"response": []
 		},
 		{
+			"name": "Login Mari.Doyle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/login?username=Mari.Doyle&password=1753799703",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Mari.Doyle"
+						},
+						{
+							"key": "password",
+							"value": "1753799703"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create new trainee",
 			"request": {
 				"method": "POST",
@@ -60,6 +90,36 @@
 							"key": "username",
 							"value": "Mari.Doyle",
 							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/login?username=Anton.Huge&password=mD%23%269doVE7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Anton.Huge"
+						},
+						{
+							"key": "password",
+							"value": "mD%23%269doVE7"
 						}
 					]
 				}
@@ -212,6 +272,61 @@
 			"response": []
 		},
 		{
+			"name": "Login Igor.Gura",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/login?username=Anton.Huge&password=mD%23%269doVE7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Anton.Huge"
+						},
+						{
+							"key": "password",
+							"value": "mD%23%269doVE7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Igor.Gura",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trainee?username=Mari.Doyle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trainee"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Mari.Doyle"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Update trainee's trainer List",
 			"request": {
 				"method": "PUT",
@@ -226,6 +341,98 @@
 					}
 				},
 				"url": "http://localhost:8080/trainee/2/trainers"
+			},
+			"response": []
+		},
+		{
+			"name": "Change trainee Status",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Igor.Gura\",\r\n     \"active\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trainee/2/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trainee",
+						"2",
+						"status"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Mari.Doyle",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Shannon.Velazquez",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/login?username=Shannon.Velazquez&password=1788799703",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Shannon.Velazquez"
+						},
+						{
+							"key": "password",
+							"value": "1788799703"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Shannon.Velazquez",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/trainee?username=Shannon.Velazquez",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trainee"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Shannon.Velazquez"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -265,6 +472,41 @@
 						{
 							"key": "trainingType",
 							"value": "yoga"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password for Shannon.Velazquez",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Anton\",\r\n    \"lastname\": \"Huge\",\r\n    \"dateOfBirth\": \"1982-10-03\",\r\n    \"address\": \"15 Michael Road, Springville, Verginia, 23399\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/trainee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"trainee"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Mari.Doyle",
+							"disabled": true
 						}
 					]
 				}
