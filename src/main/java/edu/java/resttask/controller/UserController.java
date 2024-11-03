@@ -7,6 +7,7 @@ import edu.java.resttask.exception.InvalidDataException;
 import edu.java.resttask.exception.NoResourcePresentException;
 import edu.java.resttask.service.ServiceException;
 import edu.java.resttask.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class UserController {
     @GetMapping("/login")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Login in App")
     public void login(@RequestParam("username") String username, @RequestParam("password") String password) throws NoResourcePresentException, InvalidDataException {
         if (validateLogin(username) && validatePassword(password)) {
 
@@ -43,13 +45,14 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/password")
+    @PutMapping("/password")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public void changePassword(@PathVariable Long id, @RequestBody UserPasswordDto userPasswordDto) throws InvalidDataException, ServiceException {
+    @Operation(summary = "Change password")
+    public void changePassword(@RequestBody UserPasswordDto userPasswordDto) throws InvalidDataException, ServiceException {
         if (validateLogin(userPasswordDto.getUsername()) && validatePassword(userPasswordDto.getOldPassword()) && validatePassword(userPasswordDto.getNewPassword())) {
 
-            userService.changePassword(id, userPasswordDto);
+            userService.changePassword(userPasswordDto);
 
             authBean.clear();
 

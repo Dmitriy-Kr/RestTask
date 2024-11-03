@@ -485,7 +485,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstname\": \"Anton\",\r\n    \"lastname\": \"Huge\",\r\n    \"dateOfBirth\": \"1982-10-03\",\r\n    \"address\": \"15 Michael Road, Springville, Verginia, 23399\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Shannon.Velazquez\",\r\n    \"oldPassword\": \"1788799703\",\r\n    \"newPassword\": \"1010101010\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -493,14 +493,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/trainee",
+					"raw": "http://localhost:8080/user/password",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"trainee"
+						"user",
+						"password"
 					],
 					"query": [
 						{

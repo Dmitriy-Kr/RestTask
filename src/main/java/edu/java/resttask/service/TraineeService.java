@@ -67,27 +67,14 @@ public class TraineeService {
             }
 
         } catch (Exception e) {
-            logger.error("Fail to get trainee with userName {}  from DB", username);
-            throw new ServiceException("Fail to get from DB trainee with userName " + username, e);
+            logger.error("Fail to get trainee with username {}  from DB", username);
+            throw new ServiceException("Fail to get from DB trainee with username " + username, e);
         }
-    }
-
-    @Transactional
-    public Trainee changePassword(Trainee trainee) throws ServiceException {
-
-        Optional<Trainee> traineeFromDB = findByUsername(trainee.getUser().getUsername());
-        if (traineeFromDB.isPresent()) {
-            traineeFromDB.get().getUser().setPassword(trainee.getUser().getPassword());
-            trainee = traineeRepository.save(traineeFromDB.get());
-        }
-
-        return trainee;
     }
 
     @Transactional
     public Optional<Trainee> update(Trainee trainee) throws ServiceException {
 
-//        Optional<Trainee> traineeFromDB = findByUsername(trainee.getUser().getUsername());
         Optional<Trainee> traineeFromDB = traineeRepository.findById(trainee.getId());
 
         if (traineeFromDB.isPresent()) {
@@ -148,8 +135,6 @@ public class TraineeService {
     public List<Training> getTrainings(String traineeUsername, Date fromDate, Date toDate, String trainerName, String trainingType) throws ServiceException {
         Optional<Trainee> traineeFromDB = findByUsername(traineeUsername);
 
-//        System.out.println(traineeUsername + " " + fromDate + " " + toDate + " " + trainerName + " " + trainingType);
-
         Predicate<Training> fromDateTest = fromDate != null ? t -> t.getTrainingDay().compareTo(fromDate) >= 0 : t -> true;
         Predicate<Training> toDateTest = toDate != null ? t -> t.getTrainingDay().compareTo(toDate) <= 0 : t -> true;
         Predicate<Training> trainerNameTest = trainerName != null ? t -> t.getTrainer().getUser().getFirstname().equals(trainerName) : t -> true;
@@ -158,9 +143,6 @@ public class TraineeService {
         return traineeFromDB
                 .map(
                         trainee -> trainee.getTrainings().stream()
-//                                .filter(t -> t.getTrainingDay().compareTo(fromDate) >= 0 && t.getTrainingDay().compareTo(toDate) <= 0)
-//                                .filter(t -> t.getTrainer().getUser().getFirstname().equals(trainerName))
-//                                .filter(t -> t.getTrainingType().equals(trainingType))
                                 .filter(fromDateTest.and(toDateTest).and(trainerNameTest).and(trainingTypeTest))
                                 .collect(Collectors.toList())
                 )
@@ -180,8 +162,8 @@ public class TraineeService {
                 Optional<Trainer> trainerFromDB;
 
                 try {
-                    trainerFromDB = trainerRepository.getTrainerByUserName(trainer.getUser().getUsername());
-                } catch (DBException e) {
+                    trainerFromDB = trainerRepository.findByUsername(trainer.getUser().getUsername());
+                } catch (Exception e) {
                     throw new ServiceException("Something went wrong!!!", e);
                 }
 
@@ -223,8 +205,8 @@ public class TraineeService {
         }
 
         try {
-            trainers = trainerRepository.getAll();
-        } catch (DBException e) {
+            trainers = trainerRepository.findAll();
+        } catch (Exception e) {
             logger.error("Fail to get trainers from DB");
             throw new ServiceException("Fail to get trainers from DB", e);
         }

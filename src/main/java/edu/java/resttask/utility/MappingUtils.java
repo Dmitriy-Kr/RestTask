@@ -2,6 +2,7 @@ package edu.java.resttask.utility;
 
 import edu.java.resttask.dto.TraineeDto;
 import edu.java.resttask.dto.TraineeTrainingDto;
+import edu.java.resttask.dto.TrainerDto;
 import edu.java.resttask.dto.TrainerDtoForTrainee;
 import edu.java.resttask.entity.*;
 
@@ -60,6 +61,31 @@ public class MappingUtils {
         user.setUsername(trainerDto.getUsername());
         trainer.setUser(user);
         return trainer;
+    }
+
+    public static Trainer mapToTrainer(TrainerDto trainerDto) {
+        Trainer trainer = new Trainer();
+        trainer.setSpecialization(new TrainingType(trainerDto.getSpecialization()));
+
+        User user = new User();
+        user.setFirstname(trainerDto.getFirstname());
+        user.setLastname(trainerDto.getLastname());
+        user.setUsername(trainerDto.getUsername());
+        user.setIsActive(trainerDto.getActive());
+        trainer.setUser(user);
+        return trainer;
+    }
+
+    public static TrainerDto mapToTrainerDto(Trainer trainer) {
+        TrainerDto dto = new TrainerDto();
+        dto.setId(trainer.getId());
+        dto.setFirstname(trainer.getUser().getFirstname());
+        dto.setLastname(trainer.getUser().getLastname());
+        dto.setUsername(trainer.getUser().getUsername());
+        dto.setPassword(trainer.getUser().getPassword());
+        dto.setActive(trainer.getUser().isActive());
+        dto.setSpecialization(trainer.getSpecialization().getTrainingType());
+        return dto;
     }
 
     public static TraineeTrainingDto mapToTraineeTrainingDto (Training training) {

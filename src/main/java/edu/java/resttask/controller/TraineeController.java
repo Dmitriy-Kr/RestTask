@@ -109,6 +109,7 @@ public class TraineeController {
 
     @PostMapping
     @ResponseBody
+    @Operation(summary = "New Trainee registration")
     public TraineeDto create(@RequestBody TraineeDto traineeDto) throws InvalidDataException {
         validateName(traineeDto.getFirstname());
         validateName(traineeDto.getLastname());
@@ -148,6 +149,7 @@ public class TraineeController {
 
     @PatchMapping("/{id}/status")
     @ResponseBody
+    @Operation(summary = "Activate/De-Activate Trainee")
     public TraineeDto changeStatus(@PathVariable Long id, @RequestBody TraineeDto traineeDto) throws ServiceException, LoginException, InvalidDataException {
 
         if (validateLogin(traineeDto.getUsername()) && authBean.getUser() != null && authBean.getUser().getUsername().equals(traineeDto.getUsername())) {

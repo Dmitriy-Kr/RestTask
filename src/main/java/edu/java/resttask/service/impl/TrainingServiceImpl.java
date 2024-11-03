@@ -40,7 +40,7 @@ public class TrainingServiceImpl implements TrainingService {
                     .orElseThrow(() -> new ServiceException("Fail to create training. No such trainee present in DB")));
 
             training.setTrainer(trainerService
-                    .getTrainerByUserName(training.getTrainer().getUser().getUsername())
+                    .findByUsername(training.getTrainer().getUser().getUsername())
                     .orElseThrow(() -> new ServiceException("Fail to create training. No such trainer present in DB")));
 
             return trainingRepository.create(training);

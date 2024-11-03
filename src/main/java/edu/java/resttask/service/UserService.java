@@ -1,12 +1,10 @@
 package edu.java.resttask.service;
 
 import edu.java.resttask.dto.UserPasswordDto;
-import edu.java.resttask.entity.Trainee;
 import edu.java.resttask.entity.User;
 import edu.java.resttask.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -29,7 +27,7 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(Long id, UserPasswordDto userPasswordDto) throws ServiceException {
+    public void changePassword(UserPasswordDto userPasswordDto) throws ServiceException {
 
         Optional<User> userFromDB = userRepository.findByUsernameAndPassword(userPasswordDto.getUsername(), userPasswordDto.getOldPassword());
 
