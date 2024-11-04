@@ -3,7 +3,6 @@ package edu.java.resttask.controller;
 import edu.java.resttask.authbean.AuthBean;
 import edu.java.resttask.authbean.LoginException;
 import edu.java.resttask.dto.TrainingTypeDto;
-import edu.java.resttask.entity.TrainingType;
 import edu.java.resttask.exception.InvalidDataException;
 import edu.java.resttask.service.ServiceException;
 import edu.java.resttask.service.TrainingTypeService;
