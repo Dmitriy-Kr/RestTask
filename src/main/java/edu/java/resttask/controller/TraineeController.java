@@ -68,6 +68,7 @@ public class TraineeController {
 
     @GetMapping("/trainings")
     @ResponseBody
+    @Operation(summary = "Get Trainee Trainings List")
     public List<TraineeTrainingDto> findTrainings(@RequestParam("username") String username,
                                                   @RequestParam(value = "fromDate", required = false) String fromDateParameter,
                                                   @RequestParam(value = "toDate", required = false) String toDateParameter,
@@ -118,6 +119,7 @@ public class TraineeController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @Operation(summary = "Update Trainee Profile")
     public TraineeDto update(@PathVariable Long id, @RequestBody TraineeDto traineeDto) throws ServiceException, LoginException, InvalidDataException {
 
         if (validateLogin(traineeDto.getUsername()) && authBean.getUser() != null && authBean.getUser().getUsername().equals(traineeDto.getUsername())) {
@@ -133,6 +135,7 @@ public class TraineeController {
 
     @PutMapping("/{id}/trainers")
     @ResponseBody
+    @Operation(summary = "Update Trainee's Trainer List")
     public List<TrainerDtoForTrainee> updateTrainerList(@PathVariable Long id, @RequestBody TraineeDto traineeDto) throws ServiceException, LoginException, InvalidDataException {
 
         if (validateLogin(traineeDto.getUsername()) && authBean.getUser() != null && authBean.getUser().getUsername().equals(traineeDto.getUsername())) {
@@ -163,6 +166,7 @@ public class TraineeController {
 
     @DeleteMapping
     @ResponseBody
+    @Operation(summary = "Delete Trainee Profile")
     public void delete(@RequestParam("username") String username) throws ServiceException, LoginException, InvalidDataException {
 
         if (validateLogin(username) && authBean.getUser() != null && authBean.getUser().getUsername().equals(username)) {

@@ -1,9 +1,6 @@
 package edu.java.resttask.utility;
 
-import edu.java.resttask.dto.TraineeDto;
-import edu.java.resttask.dto.TraineeTrainingDto;
-import edu.java.resttask.dto.TrainerDto;
-import edu.java.resttask.dto.TrainerDtoForTrainee;
+import edu.java.resttask.dto.*;
 import edu.java.resttask.entity.*;
 
 import java.util.stream.Collectors;
@@ -96,6 +93,18 @@ public class MappingUtils {
         dto.setTrainingType(training.getTrainingType().getTrainingType());
         dto.setTrainingDuration(training.getTrainingDuration());
         dto.setTrainerName(training.getTrainer().getUser().getUsername());
+
+        return dto;
+    }
+
+    public static TrainerTrainingDto mapToTrainerTrainingDto (Training training) {
+        TrainerTrainingDto dto = new TrainerTrainingDto();
+
+        dto.setTrainingName(training.getTrainingName());
+        dto.setTrainingDay(training.getTrainingDay());
+        dto.setTrainingType(training.getTrainingType().getTrainingType());
+        dto.setTrainingDuration(training.getTrainingDuration());
+        dto.setTraineeName(training.getTrainee().getUser().getUsername());
 
         return dto;
     }

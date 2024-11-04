@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Find trainee by Username",
+			"name": "Find trainee by Username Mari.Doyle",
 			"request": {
 				"method": "GET",
 				"header": [],

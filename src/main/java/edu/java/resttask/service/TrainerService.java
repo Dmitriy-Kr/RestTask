@@ -125,7 +125,7 @@ public class TrainerService {
 
         Predicate<Training> fromDateTest = fromDate != null ? t -> t.getTrainingDay().compareTo(fromDate) >= 0 : t -> true;
         Predicate<Training> toDateTest = toDate != null ? t -> t.getTrainingDay().compareTo(toDate) <= 0 : t -> true;
-        Predicate<Training> traineeNameTest = traineeName != null ? t -> t.getTrainer().getUser().getFirstname().equals(traineeName) : t -> true;
+        Predicate<Training> traineeNameTest = traineeName != null ? t -> t.getTrainee().getUser().getFirstname().equals(traineeName) : t -> true;
 
         return trainerFromDB
                 .map(
