@@ -1,6 +1,5 @@
 package edu.java.resttask.filter;
 
-import edu.java.resttask.service.TrainerService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +28,7 @@ public class RequestResponseLoggingFilter implements Filter {
         chain.doFilter(request, response);
         logger.info(
                 "Logging Response :{}",
-                res.getContentType());
+                res.getStatus());
     }
 
 }
