@@ -3,6 +3,8 @@ package edu.java.resttask.utility;
 import edu.java.resttask.dto.*;
 import edu.java.resttask.entity.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 public class MappingUtils {
@@ -108,4 +110,14 @@ public class MappingUtils {
 
         return dto;
     }
+
+    public static TrainingTypeDto mapToTrainingTypeDto (TrainingType trainingType) {
+        TrainingTypeDto dto = new TrainingTypeDto();
+
+        dto.setId(trainingType.getId());
+        dto.setTrainingType(trainingType.getTrainingType());
+
+        return dto;
+    }
+
 }
